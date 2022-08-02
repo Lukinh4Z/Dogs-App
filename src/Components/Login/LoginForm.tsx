@@ -1,19 +1,30 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { FormInput } from '../Forms/FormInput';
 import { Box, Button, Grid, Typography } from '@mui/material';
-import { UserContext } from '../../UserContext';
-import { UserContexType } from '~/@types/data';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-export const LoginForm = () => {
-    const [username, setUsername] = React.useState('');
-    const [password, setPassword] = React.useState('');
+import { UserContexType } from '../../@types/data';
+import { useForm } from '../../Hooks/useForm';
+import { UserContext } from '../../UserContext';
+import { FormInput } from '../Forms/FormInput';
+
+export const LoginForm: React.FC = () => {
+    // deixei de usar State direto para migrar pro useForm
+    // const [username, setUsername] = React.useState('');
+    // const [password, setPassword] = React.useState('');
+
+    // uso este espaço " " para indicar que o campo não pode ser vazio;
+    const username = useForm(" ");
+    const password = useForm(" ");
 
     const { userLogin, error, loading } = React.useContext(UserContext) as UserContexType;
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        userLogin(username, password);
+
+        //só realiza o fetch se os valores de user e pass forem válidos
+        if (username.validate() && password.validate()) {
+            userLogin(username.value, password.value);
+        }
     }
 
     return (
@@ -23,9 +34,8 @@ export const LoginForm = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-            }}
-        >
-            <Typography component="h1" variant="h5">
+            }}>
+            <Typography component="h1" variant="h4">
                 Login
             </Typography>
             <Box
@@ -40,25 +50,36 @@ export const LoginForm = () => {
                     alignItems: 'left',
                 }}>
                 <Grid container spacing={2} sx={{
+                    width: '100%',
                     display: 'flex',
                     flexDirection: 'column',
-                    alignItems: 'left',
+                    alignItems: 'center',
                 }}>
-                    <Grid item>
+                    <Grid item sx={{ width: "100%" }}>
                         <FormInput
                             type="text"
-                            id={username}
+                            id="username"
                             label="Username"
-                            setChange={setUsername} />
+                            // setChange={setUsername} 
+                            {...username} />
                     </Grid>
-                    <Grid item>
+                    <Grid item sx={{ width: "100%" }}>
                         <FormInput
                             type="password"
-                            id={password}
+                            id="password"
                             label="Password"
-                            setChange={setPassword} />
+                            // setChange={setPassword}
+                            {...password} />
                     </Grid>
+
+                    {error && <Grid item sx={{ width: "100%" }}>
+                        <Typography sx={{ width: "100%" }} component="h1" variant="h6">
+                            Invalid credentials, please try again.
+                        </Typography>
+                    </Grid>}
+
                 </Grid>
+
                 <Box sx={{
                     padding: '1rem',
                     display: 'flex',
@@ -79,7 +100,6 @@ export const LoginForm = () => {
                             variant='contained'>
                             Login
                         </Button>)}
-                    {error && <p>Access Denied</p>}
                     <Button
                         sx={{ width: "10em", margin: "1rem" }}
                         variant='contained'>

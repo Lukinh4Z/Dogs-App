@@ -1,13 +1,15 @@
 import axios from 'axios';
-import React, { ReactElement } from 'react'
+import React, { ReactElement } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { IData, UserContexType } from './@types/data';
 import { TOKEN_POST, TOKEN_VALIDATE_POST, USER_GET } from './api_fetch';
-import { UserContexType, IData } from './@types/data';
 
 
 export const UserContext = React.createContext<UserContexType | null>(null);
 
-export const UserStorage = ({ children }: { children: ReactElement }) => {
+// aqui é necessário especificar que children pode ser um array "[]" de "ReactElement"
+export const UserStorage = ({ children }: { children: ReactElement[] }) => {
     const [data, setData] = React.useState<IData | null>(null);
     const [login, setLogin] = React.useState(false);
     const [loading, setLoading] = React.useState(false);

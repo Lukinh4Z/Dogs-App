@@ -2,8 +2,9 @@ import React from 'react'
 import { UserPost } from './endpoints/UserPost'
 import { TokenPost } from './endpoints/TokenPost';
 
-export const Api = () => {
+export const Api: React.FC = () => {
   return (
+    //essa página serve apenas como teste da API.
     <div>
       <h2>USER POST</h2>
       <UserPost />

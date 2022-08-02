@@ -16,6 +16,7 @@
   padding: 2rem;
 }
 
+/* setando a responsividade para o formulário */
 @media (max-width: 40rem) {
   .login {
     grid-template-columns: 1fr;

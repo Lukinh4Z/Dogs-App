@@ -1,10 +1,11 @@
+import { Button } from '@mui/material';
 import * as React from 'react';
-import styles from "./Header.module.css";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import { UserContexType } from '~/@types/data';
+
 import Dogs from '../Assets/Dogs';
 import { UserContext } from '../UserContext';
-import { Button } from '@mui/material';
-import { UserContexType } from '~/@types/data';
+import styles from './Header.module.css';
 
 export const Header = () => {
   const { data, userLogout } = React.useContext(UserContext) as UserContexType;

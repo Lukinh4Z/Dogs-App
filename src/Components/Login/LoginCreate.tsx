@@ -1,29 +1,38 @@
-import React from 'react'
+import { Box, Button, Grid, Typography } from '@mui/material';
 import axios from 'axios';
-import { Button, Box, Typography, Grid } from '@mui/material';
-import { FormInput } from '../Forms/FormInput';
-import { UserContext } from '../../UserContext';
+import React from 'react';
+
 import { UserContexType } from '../../@types/data';
 import { USER_POST } from '../../api_fetch';
+import { useForm } from '../../Hooks/useForm';
+import { UserContext } from '../../UserContext';
+import { FormInput } from '../Forms/FormInput';
 
 export const LoginCreate = () => {
-    const [username, setUsername] = React.useState('');
-    const [password, setPassword] = React.useState('');
-    const [email, setEmail] = React.useState('');
+    // const [username, setUsername] = React.useState('');
+    // const [password, setPassword] = React.useState('');
+    // const [email, setEmail] = React.useState('');
 
     const { userLogin, error, loading } = React.useContext(UserContext) as UserContexType;
+
+    const username = useForm(" ");
+    const password = useForm('password');
+    const email = useForm('email');
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        const options = USER_POST(username, password, email);
+        //só realiza o fetch se os valores de user, pass e email forem válidos
+        if (username.validate() && password.validate()) {
+            const options = USER_POST(username.value, password.value, email.value);
 
-        axios.request(options).then(function (response) {
-            console.log(response);
-            if (response.status = 200) userLogin(username, password);
-        }).catch(function (error) {
-            console.error(error);
-        });
+            axios.request(options).then(function (response) {
+                console.log(response);
+                if (response.status = 200) userLogin(username.value, password.value);
+            }).catch(function (error) {
+                console.error(error);
+            });
+        }
     }
 
     return (
@@ -57,23 +66,23 @@ export const LoginCreate = () => {
                     <Grid item>
                         <FormInput
                             type="text"
-                            id={username}
+                            id="Username"
                             label="Username"
-                            setChange={setUsername} />
+                            {...username} />
                     </Grid>
                     <Grid item>
                         <FormInput
                             type="password"
-                            id={password}
+                            id="password"
                             label="Password"
-                            setChange={setPassword} />
+                            {...password} />
                     </Grid>
                     <Grid item>
                         <FormInput
                             type="text"
-                            id={email}
+                            id="email"
                             label="Email"
-                            setChange={setEmail} />
+                            {...email} />
                     </Grid>
                 </Grid>
                 <Box sx={{

@@ -9,7 +9,7 @@ export function TOKEN_POST({ username, password }: { username: string, password:
     }
 }
 
-export function USER_GET(token: string | null) {
+export function USER_GET(token: string) {
     return {
         method: 'GET',
         url: API_URL + "/api/user",
