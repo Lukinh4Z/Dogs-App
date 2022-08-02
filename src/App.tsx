@@ -23,7 +23,7 @@ function App() {
           <UserStorage>
             <Header />
             <Routes>
-              <Route path='/' element={<Home />} />
+              <Route path='/' element={<Login />} />
               {/* como eu tenho outras rotas dentro das páginas, é necessário 
                 colocar esse "/*"*/}
               <Route path='login/*' element={<Login />} />
