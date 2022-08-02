@@ -2,7 +2,7 @@ import './App.css';
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import * as React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import { Footer } from './Components/Footer';
 import { Header } from './Components/Header';
@@ -14,6 +14,7 @@ import { UserStorage } from './UserContext';
 const theme = createTheme();
 
 function App() {
+  const shouldRedirect = true;
 
   return (
     <>
@@ -23,7 +24,14 @@ function App() {
           <UserStorage>
             <Header />
             <Routes>
-              <Route path='/' element={<Login />} />
+              <Route path='/'
+                element={
+                  shouldRedirect ? (
+                    <Navigate replace to="login" />
+                  ) : (
+                    <Home />
+                  )
+                } />
               {/* como eu tenho outras rotas dentro das páginas, é necessário 
                 colocar esse "/*"*/}
               <Route path='login/*' element={<Login />} />
